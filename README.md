@@ -1,5 +1,5 @@
 ## Java Collections
-collection or known as **container** is a object that collect some data feature, which we can use to build our app without any additional libraries. 
+collection or known as **container** is a object that collect some data feature, which we can use to build our app without any additional libraries.
 
 ![2bb730d4896648d45948ec6fce06e80955c945e5716988a844f7d6da0b75858c-image](https://user-images.githubusercontent.com/63696803/167309867-7a0f7bf6-9b9a-4121-87ba-b75dd01cff12.png)
 
@@ -107,7 +107,7 @@ LinkedHashSet<String> names = new LinkedHashSet<>();
   }
 ```
 
-✳️**SortedSet**
+✳️ **SortedSet**
 ```
 class Person {
     private final String name;
@@ -145,4 +145,133 @@ public static void sortedSet() {
 #
 
 ### **Queue**
-Queue is implementation of FIFO (First In First Out) data structure.
+**Queue** is implementation of FIFO (First In First Out) data structure. But, with **Deque** we can do data manipulation as LIFO too.
+
+✳️ **ArrayQueue**
+```
+public static void arrayQueue() {
+  Queue<String> queue = new ArrayDeque<>(10);
+
+  List<String> names = List.of("Marsha", "Lenathea", "Lavia");
+  queue.addAll(names);
+
+  for (String next = queue.poll(); next != null; next = queue.poll()) {
+    println(next);
+  }
+
+  println(queue.toString());
+}
+```
+✳️ **PriorityQueue**
+
+```
+public static void priorityQueue() {
+  Queue<String> queue = new PriorityQueue<>();
+
+  List<String> names = List.of("Marsha", "Lenathea", "Lavia");
+  queue.addAll(names);
+
+  // priority queue automatically sort data by character
+  for (String next = queue.poll(); next != null; next = queue.poll()) {
+      println(next);
+  }
+
+  println(queue.toString());
+}
+```
+✳️ **ArrayDeque**
+
+```
+public static void arrayDeque() {
+   Deque<String> deque = new ArrayDeque<>();
+
+  List<String> names = List.of("Marsha", "Lenathea", "Lavia");
+  for (String name: names) {
+      deque.addFirst(name);
+  }
+
+  for (String data : deque) {
+      print(data + ", "); // Lavia, Lenathea, Marsha,
+  }
+  println("");
+
+  println(deque.toString()); // [Lavia, Lenathea, Marsha]
+  deque.pollLast();
+  println(deque.toString()); // [Lavia, Lenathea]
+  deque.pollFirst();
+  println(deque.toString()); // [Lenathea]
+}
+```
+
+#
+
+### **Map**
+map is collection data structure that composed by key and value. Key must be unique.
+
+✳️**hashMap**
+```
+public static void hashMap() {
+  Map<String, String> map = new HashMap<>();
+  map.put("firstname", "Marsha");
+  map.put("lastname", "Lenathea Lavia");
+
+  println(map.get("firstname") + " " + map.get("lastname"));
+}
+```
+
+✳️ **WeakHashMap**
+```
+public static void weakHashMap() {
+  Map<Integer, String> map = new WeakHashMap<>();
+
+  // WeakHashMap is like hashMap,
+  // but all data in it will remove any garbage collection
+  List<String> names = List.of("Marsha", "Lenathea", "Lavia");
+  for (String name: names) {
+      map.put(names.indexOf(name), name);
+  }
+
+  println("size before gc: " + map.size()); // 3
+  System.gc();
+  println("size after gc: " + map.size()); // will be 0 when data map never use
+}
+```
+
+✳️ **LinkedHashMap**
+```
+public static void linkedHashMap() {
+  Map<String, String> map = new LinkedHashMap<>();
+
+  // LinkedHashMap will sort data map as LIFO (in order)
+  map.put("firstname", "Marsha");
+  map.put("lastname", "Lavia");
+  map.put("middlename", "Lenathea");
+
+  Set<String> keys = map.keySet();
+  for (String key: keys) {
+      println(key); // firstname lastname middlename
+  }
+
+  // if we use HashMap instead of LinkedHashMap,
+  // data will not in order cause data will sorted by hashCode (generated automatically & unpredictable)
+  // firstname middlename lastname
+}
+```
+
+✳️ **EnumMap**
+```
+public static enum Level {
+  FREE, STANDARD, PREMIUM, VIP
+}
+
+public static void enumMap() {
+  EnumMap<Level, String> map = new EnumMap<>(Level.class);
+
+  // EnumMap optimized for enum data usage
+  map.put(Level.FREE, "Gratis");
+  map.put(Level.PREMIUM, "Berbayar");
+
+  println(map.get(Level.FREE));
+  println(map.get(Level.PREMIUM));
+}
+```
